@@ -13,7 +13,7 @@ const schema = new mongoose.Schema({
         type: String,
         required: true
     },
-    Type: {
+    type: {
         type: String,
         required: true,
         enum: {
