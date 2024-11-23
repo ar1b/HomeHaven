@@ -22,7 +22,7 @@ const schema = new mongoose.Schema({
         }
     },
     pictures: {
-        type: Buffer,
+        data: Buffer,
         contentType: String
     }
 },{

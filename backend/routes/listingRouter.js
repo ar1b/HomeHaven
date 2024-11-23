@@ -2,7 +2,15 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const Listings = require('../models/listings.js');
+const validator = require('validator');
 const Users = require('../models/users.js');
+//const Buffer = require('buffer/').Buffer
+
+const multer = require('multer');
+const storage = multer.memoryStorage();
+const upload = multer({storage: storage});
+const fs = require('fs-extra');
+
 //const { findById } = require('../models/users.js');
 
 //assuming frontend will get values from backend that lets the frontend decide redirects when neccessary
@@ -35,19 +43,94 @@ const findUserById = async function(req, res, next){
 }
 
 router.post('/create', findUserById, async (req, res) =>{
-    const listing = new Listings({
-        owner: req.user_id,
-        price: req.body.price,
-        address: req.body.address,
-        type: (req.body.type).toLowerCase()
-    });
     try{
+        const listing = new Listings({
+            owner: req.user_id,
+            price: req.body.price,
+            address: req.body.address,
+            type: (req.body.type).toLowerCase()
+        });
         const savedListing = await listing.save();
         res.json({message: 'created listing'});
     }
     catch(err){
         res.json({message: err.message});
     }
+});
+
+/* DO NOT USE THIS COMMENTED SECTION; GO TO /create3
+//to test picture uploads
+router.post('/create2', findUserById, async (req, res) =>{
+    //console.log (req.body);
+    //diagnostic
+    // let price = req.body.price;
+    // let address = req.body.address;
+    // let type = (req.body.type).toLowerCase();
+    //let pictures = req.body.pictures;
+    try{
+        const listing = new Listings({
+            owner: req.user_id,
+            price: req.body.price,
+            address: req.body.address,
+            type: (req.body.type).toLowerCase(),
+            //pictures: req.body.pictures
+        });
+        const savedListing = await listing.save();
+        res.json({message: 'created listing', id: savedListing._id});
+    }
+    catch(err){
+        res.json({message: err.message});
+    }
+});
+
+router.post('/create-photo', upload.single('pictures'), async (req, res) => {
+    const id = req.get('listing_id');
+    let pictures = req.file;
+    console.log(id);
+    console.log(pictures);
+    try{
+        const listing = await Listings.findById(id);
+        listing.pictures = pictures;
+        const savedListing = await listing.save();
+        res.json({message: 'asdf'});
+    }
+    catch(err){
+        res.json({message: err.message});
+    }
+    
+});
+*/
+
+router.post('/create3', upload.single('pictures'), async (req, res) => {
+    try{
+        let price = req.body.price;
+        let address = req.body.address;
+        let type = (req.body.type).toLowerCase();
+        
+        let pictures = {
+            data: req.file.buffer,
+            contentType: 'image/png'
+        }
+        const listing = new Listings({
+            price,
+            address,
+            type,
+            pictures
+        });
+        console.log(price);
+        console.log(address);
+        console.log(type);
+        console.log(pictures);
+        const savedListing = await listing.save();
+        console.log('created listing');
+        res.json({message: 'created listing'});
+    }
+    catch(err){
+        console.log(err);
+        res.json({message: err.message});
+    }
+    
+    
 });
 
 //read single listing with query string using id (for pages showing details on one listing)
@@ -96,9 +179,10 @@ router.patch('/update', findUserById, async (req, res) => {
     const id = req.body.id;    //this is not changed, it is only used to search for the document being changed
     const price = req.body.price;
     const address = req.body.address;
-    const type = (req.body.type).toLowerCase();
+    
     
     try{
+        const type = (req.body.type).toLowerCase();
         const searchResult = await Listings.findById(id);
         if (!searchResult){
             res.json({message: 'no listing found with request id'});
