@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const schema = new mongoose({
+const schema = new mongoose.Schema({
     owner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users'
@@ -29,4 +29,4 @@ const schema = new mongoose({
     timestamps: true
 });
 
-module.exports = mongoose.model('listings',schema);
+module.exports = mongoose.model('listings', schema);
