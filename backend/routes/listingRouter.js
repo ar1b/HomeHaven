@@ -9,7 +9,7 @@ const Users = require('../models/users.js');
 const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({storage: storage});
-const fs = require('fs-extra');
+//const fs = require('fs-extra');
 
 //const { findById } = require('../models/users.js');
 

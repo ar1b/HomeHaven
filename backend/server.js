@@ -24,7 +24,7 @@ app.use( express.static( __dirname + '/photoTest' ));
 app.get('/', (req, res) =>{
     res.sendFile(__dirname + '/photoTest/testForm.html');
 });
-app.get('/', (req, res) =>{
+app.get('/testphoto', (req, res) =>{
     res.sendFile(__dirname + '/photoTest.testPhoto.html');
 });
 //end of temporary stuff
