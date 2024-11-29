@@ -202,6 +202,7 @@ router.get('/listing3/:id', async (req, res) =>{
 });
 */
 
+/*
 //attempt 4 send image
 //works for static html
 router.get('/listing4/:id', async (req, res) =>{
@@ -212,7 +213,7 @@ router.get('/listing4/:id', async (req, res) =>{
             const searchResult = await Listings.findById(req.params.id);
             if (searchResult){
                 await fs.outputFileSync(path.join(__dirname, '/photoTest/photo1.png'), searchResult.pictures.data);
-                res.sendFile(__dirname + '/photoTest/testPhoto2.html');
+                res.sendFile(__dirname + '/photoTest/testPhoto3.html');
             }
             else{
                 res.json({message: 'no listing found with request id'});
@@ -227,13 +228,14 @@ router.get('/listing4/:id', async (req, res) =>{
             }
         }
     }
-    else if (req.params.id === 'testPhoto2.js'){
-        res.sendFile(__dirname + '/photoTest/testPhoto2.js');
+    else if (req.params.id === 'testPhoto3.js'){
+        res.sendFile(__dirname + '/photoTest/testPhoto3.js');
     }
     else if (req.params.id === 'photo1.png'){
         res.sendFile(__dirname + '/photoTest/photo1.png');
     }
 });
+*/
 
 //read with query strings using owner name, owner email, address or type (for search result pages)
 //implementation requires exact strings to match

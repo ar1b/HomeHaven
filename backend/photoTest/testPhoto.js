@@ -6,14 +6,16 @@ function updateId(){
     console.log(listingId);
 }
 
-/*
+
 async function submitForm(e){
     e.preventDefault();
     try{
         await fetch("http://localhost:3000/api-listings/listing2/" + listingId)
-        .then( res => {
-            const obj = res.blob;
-            const file1 = new File([obj], "resPhoto1.png");
+        .then( async res => {
+            const obj = await res.blob();
+            const tempURL = URL.createObjectURL(obj);
+            document.getElementById("photoBox").src = tempURL;
+            console.log(tempURL);
         })
         .catch( err => {console.log("Error! " + err)} );
     }
@@ -21,8 +23,9 @@ async function submitForm(e){
         console.log(err);
     }
 } 
-    */
+    
 
+/*
 async function submitForm2(e){
     e.preventDefault();
     try{
@@ -40,10 +43,12 @@ async function submitForm2(e){
         console.log(err);
     }
 } 
+    */
 
 function setup(){
     document.getElementById("listingId").addEventListener('input', updateId);
-    document.getElementById("submit").addEventListener('click',submitForm2);
+    document.getElementById("submit").addEventListener('click',submitForm);
+    //document.getElementById("submit").addEventListener('click',submitForm2);
 
     document.getElementById("photoBox").style.width = "600px";
     document.getElementById("photoBox").style.backgroundColor = "skyblue";

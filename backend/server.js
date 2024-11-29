@@ -21,6 +21,7 @@ app.use('/api-listings', listingRouter);
 
 //plain html files have to be put into a folder for static items to be served
 app.use( express.static( __dirname + '/photoTest' ));
+//app.use( express.static( __dirname + '/routes/photoTest' ));
 app.get('/', (req, res) =>{
     res.sendFile(__dirname + '/photoTest/testForm.html');
 });
