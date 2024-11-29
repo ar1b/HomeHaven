@@ -103,8 +103,9 @@ router.post('/create-photo', upload.single('pictures'), async (req, res) => {
 });
 */
 
-router.post('/create3', upload.single('pictures'), async (req, res) => {
+router.post('/create3', findUserById, upload.single('pictures'), async (req, res) => {
     try{
+        let owner = req.user_id;
         let price = req.body.price;
         let address = req.body.address;
         let type = (req.body.type).toLowerCase();
@@ -114,17 +115,13 @@ router.post('/create3', upload.single('pictures'), async (req, res) => {
             contentType: 'image/png'
         }
         const listing = new Listings({
+            owner,
             price,
             address,
             type,
             pictures
         });
-        console.log(price);
-        console.log(address);
-        console.log(type);
-        console.log(pictures);
         const savedListing = await listing.save();
-        console.log('created listing');
         res.json({message: 'created listing'});
     }
     catch(err){
@@ -239,21 +236,42 @@ router.get('/listing4/:id', async (req, res) =>{
 
 //read with query strings using owner name, owner email, address or type (for search result pages)
 //implementation requires exact strings to match
+//no string means search all
 //implementation done without aggregation functions to join tables
+//DOES NOT SEND PICTURES; sends text data only
+// /api-listings/listing2/:id RETURNS ONE PICTURE PER LISTING ID SENT
 //note: potential future improvements includes searching with owner id and listing id too
 router.get('/search', async (req, res) =>{
     const searchstring = req.query.searchstring;
     //NOTE searchstring is ALL LOWERCASE in the url and in this function
     //varable here was adjusted to match url query
     try{
-        //find the owner id based on the owner parameters first to find relevant listings
-        const owners = await Users.find({$or: [{email: searchstring}, {name: searchstring}]});
-        let owner_id_arr = [];
-        owners.forEach((owner) =>{
-            owner_id_arr.push(owner.id);
-        });
-        const listings = await Listings.find({$or: [{address: searchstring}, {type: searchstring}, {owner: {$in: owner_id_arr}}]})
-        res.json({listings});
+        if(!searchstring){
+            //empty searchstring means return all
+            const listings = await Listings.find();
+            let out_Arr = [];
+            listings.forEach((listing) => {
+                out_Arr.push({
+                    id: listing._id,
+                    owner: listing.owner,
+                    price: listing.price,
+                    address: listing.address,
+                    type: listing.type
+                });
+            });
+            console.log(out_Arr);
+            res.json(out_Arr);
+        }
+        else{
+            //find the owner id based on the owner parameters first to find relevant listings
+            const owners = await Users.find({$or: [{email: searchstring}, {name: searchstring}]});
+            let owner_id_arr = [];
+            owners.forEach((owner) =>{
+                owner_id_arr.push(owner.id);
+            });
+            const listings = await Listings.find({$or: [{address: searchstring}, {type: searchstring}, {owner: {$in: owner_id_arr}}]})
+            res.json(listings);
+        }
     }
     catch(err){
         res.json({message: err.message});
@@ -283,7 +301,7 @@ router.patch('/update', findUserById, async (req, res) => {
             //program crashes if manual validate does not occur before save for invalid type enum
             const commentValidate = searchResult.validateSync();
             if (!commentValidate){
-                searchResult.save();
+                await searchResult.save();
                 res.json({message: 'updated ' + id, searchResult});
             }
             else{
