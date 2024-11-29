@@ -11,6 +11,7 @@ const storage = multer.memoryStorage();
 const upload = multer({storage: storage});
 const fs = require('fs-extra');
 const path = require('node:path');
+const mongoose = require('mongoose');
 
 //const { findById } = require('../models/users.js');
 
@@ -149,7 +150,10 @@ router.get('/listing/:id', async (req, res) =>{
     }
 });
 
+
 //renders and stores base64 buffer to backend as png file
+//has potential with react
+//failed for static html
 router.get('/listing2/:id', async (req, res) =>{
     try{
         //console.log(req.params.id)
@@ -172,7 +176,10 @@ router.get('/listing2/:id', async (req, res) =>{
     }
 });
 
+
+/*
 //attempt 3 send image
+//failed; here for reference
 router.get('/listing3/:id', async (req, res) =>{
     try{
         //console.log(req.params.id)
@@ -193,27 +200,38 @@ router.get('/listing3/:id', async (req, res) =>{
         }
     }
 });
+*/
 
 //attempt 4 send image
+//works for static html
 router.get('/listing4/:id', async (req, res) =>{
-    try{
-        console.log(req.params.id)
-        const searchResult = await Listings.findById(req.params.id);
-        if (searchResult){
-            await fs.outputFileSync(path.join(__dirname, '/photoTest/photo1.png'), searchResult.pictures.data);
-            res.sendFile(__dirname + '//photoTest/testPhoto2.html');
-        }
-        else{
-            res.json({message: 'no listing found with request id'});
-        }
-    }catch(err){
-        console.log(err);
+    console.log(req.params.id);
+    if (mongoose.isValidObjectId(req.params.id)){
         try{
-            res.json({message: err.message});
+            
+            const searchResult = await Listings.findById(req.params.id);
+            if (searchResult){
+                await fs.outputFileSync(path.join(__dirname, '/photoTest/photo1.png'), searchResult.pictures.data);
+                res.sendFile(__dirname + '/photoTest/testPhoto2.html');
+            }
+            else{
+                res.json({message: 'no listing found with request id'});
+            }
+        }catch(err){
+            console.log(err);
+            try{
+                res.json({message: err.message});
+            }
+            catch(e){
+                console.log(e);
+            }
         }
-        catch(e){
-            console.log(e);
-        }
+    }
+    else if (req.params.id === 'testPhoto2.js'){
+        res.sendFile(__dirname + '/photoTest/testPhoto2.js');
+    }
+    else if (req.params.id === 'photo1.png'){
+        res.sendFile(__dirname + '/photoTest/photo1.png');
     }
 });
 
