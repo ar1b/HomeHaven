@@ -10,6 +10,7 @@ const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({storage: storage});
 const fs = require('fs-extra');
+const path = require('node:path');
 
 //const { findById } = require('../models/users.js');
 
@@ -138,13 +139,81 @@ router.get('/listing/:id', async (req, res) =>{
     try{
         const searchResult = await Listings.findById(req.params.id);
         if (searchResult){
-            res.json({searchResult});
+            res.json(searchResult);
         }
         else{
             res.json({message: 'no listing found with request id'});
         }
     }catch(err){
         res.json({message: err.message});
+    }
+});
+
+//renders and stores base64 buffer to backend as png file
+router.get('/listing2/:id', async (req, res) =>{
+    try{
+        //console.log(req.params.id)
+        const searchResult = await Listings.findById(req.params.id);
+        if (searchResult){
+            fs.outputFileSync(path.join(__dirname, '/../photoTest/pics/photo1.png'), searchResult.pictures.data);
+            res.sendFile(path.join(__dirname, '/../photoTest/pics/photo1.png'));
+        }
+        else{
+            res.json({message: 'no listing found with request id'});
+        }
+    }catch(err){
+        console.log(err);
+        try{
+            res.json({message: err.message});
+        }
+        catch(e){
+            console.log(e);
+        }
+    }
+});
+
+//attempt 3 send image
+router.get('/listing3/:id', async (req, res) =>{
+    try{
+        //console.log(req.params.id)
+        const searchResult = await Listings.findById(req.params.id);
+        if (searchResult){
+            res.json(searchResult);
+        }
+        else{
+            res.json({message: 'no listing found with request id'});
+        }
+    }catch(err){
+        console.log(err);
+        try{
+            res.json({message: err.message});
+        }
+        catch(e){
+            console.log(e);
+        }
+    }
+});
+
+//attempt 4 send image
+router.get('/listing4/:id', async (req, res) =>{
+    try{
+        console.log(req.params.id)
+        const searchResult = await Listings.findById(req.params.id);
+        if (searchResult){
+            await fs.outputFileSync(path.join(__dirname, '/photoTest/photo1.png'), searchResult.pictures.data);
+            res.sendFile(__dirname + '//photoTest/testPhoto2.html');
+        }
+        else{
+            res.json({message: 'no listing found with request id'});
+        }
+    }catch(err){
+        console.log(err);
+        try{
+            res.json({message: err.message});
+        }
+        catch(e){
+            console.log(e);
+        }
     }
 });
 

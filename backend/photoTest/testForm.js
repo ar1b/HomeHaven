@@ -69,8 +69,8 @@ async function submitForm2(e){
 
 function setup(){
     document.getElementById("token").addEventListener('input', updateToken);
-   //document.getElementById("submit").addEventListener('click',submitForm);
-   document.getElementById("submit").addEventListener('click',submitForm2);
+    //document.getElementById("submit").addEventListener('click',submitForm);
+    document.getElementById("submit").addEventListener('click',submitForm2);
 }
 
 window.addEventListener('load', setup);
