@@ -10,6 +10,8 @@ const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({storage: storage});
 const fs = require('fs-extra');
+const path = require('node:path');
+const mongoose = require('mongoose');
 
 //const { findById } = require('../models/users.js');
 
@@ -101,8 +103,9 @@ router.post('/create-photo', upload.single('pictures'), async (req, res) => {
 });
 */
 
-router.post('/create3', upload.single('pictures'), async (req, res) => {
+router.post('/create3', findUserById, upload.single('pictures'), async (req, res) => {
     try{
+        let owner = req.user_id;
         let price = req.body.price;
         let address = req.body.address;
         let type = (req.body.type).toLowerCase();
@@ -112,17 +115,13 @@ router.post('/create3', upload.single('pictures'), async (req, res) => {
             contentType: 'image/png'
         }
         const listing = new Listings({
+            owner,
             price,
             address,
             type,
             pictures
         });
-        console.log(price);
-        console.log(address);
-        console.log(type);
-        console.log(pictures);
         const savedListing = await listing.save();
-        console.log('created listing');
         res.json({message: 'created listing'});
     }
     catch(err){
@@ -138,7 +137,7 @@ router.get('/listing/:id', async (req, res) =>{
     try{
         const searchResult = await Listings.findById(req.params.id);
         if (searchResult){
-            res.json({searchResult});
+            res.json(searchResult);
         }
         else{
             res.json({message: 'no listing found with request id'});
@@ -148,23 +147,131 @@ router.get('/listing/:id', async (req, res) =>{
     }
 });
 
+
+//renders and stores base64 buffer to backend as png file
+//has potential with react
+//failed for static html
+router.get('/listing2/:id', async (req, res) =>{
+    try{
+        //console.log(req.params.id)
+        const searchResult = await Listings.findById(req.params.id);
+        if (searchResult){
+            fs.outputFileSync(path.join(__dirname, '/../photoTest/pics/photo1.png'), searchResult.pictures.data);
+            res.sendFile(path.join(__dirname, '/../photoTest/pics/photo1.png'));
+        }
+        else{
+            res.json({message: 'no listing found with request id'});
+        }
+    }catch(err){
+        console.log(err);
+        try{
+            res.json({message: err.message});
+        }
+        catch(e){
+            console.log(e);
+        }
+    }
+});
+
+
+/*
+//attempt 3 send image
+//failed; here for reference
+router.get('/listing3/:id', async (req, res) =>{
+    try{
+        //console.log(req.params.id)
+        const searchResult = await Listings.findById(req.params.id);
+        if (searchResult){
+            res.json(searchResult);
+        }
+        else{
+            res.json({message: 'no listing found with request id'});
+        }
+    }catch(err){
+        console.log(err);
+        try{
+            res.json({message: err.message});
+        }
+        catch(e){
+            console.log(e);
+        }
+    }
+});
+*/
+
+/*
+//attempt 4 send image
+//works for static html
+router.get('/listing4/:id', async (req, res) =>{
+    console.log(req.params.id);
+    if (mongoose.isValidObjectId(req.params.id)){
+        try{
+            
+            const searchResult = await Listings.findById(req.params.id);
+            if (searchResult){
+                await fs.outputFileSync(path.join(__dirname, '/photoTest/photo1.png'), searchResult.pictures.data);
+                res.sendFile(__dirname + '/photoTest/testPhoto3.html');
+            }
+            else{
+                res.json({message: 'no listing found with request id'});
+            }
+        }catch(err){
+            console.log(err);
+            try{
+                res.json({message: err.message});
+            }
+            catch(e){
+                console.log(e);
+            }
+        }
+    }
+    else if (req.params.id === 'testPhoto3.js'){
+        res.sendFile(__dirname + '/photoTest/testPhoto3.js');
+    }
+    else if (req.params.id === 'photo1.png'){
+        res.sendFile(__dirname + '/photoTest/photo1.png');
+    }
+});
+*/
+
 //read with query strings using owner name, owner email, address or type (for search result pages)
 //implementation requires exact strings to match
+//no string means search all
 //implementation done without aggregation functions to join tables
+//DOES NOT SEND PICTURES; sends text data only
+// /api-listings/listing2/:id RETURNS ONE PICTURE PER LISTING ID SENT
 //note: potential future improvements includes searching with owner id and listing id too
 router.get('/search', async (req, res) =>{
     const searchstring = req.query.searchstring;
     //NOTE searchstring is ALL LOWERCASE in the url and in this function
     //varable here was adjusted to match url query
     try{
-        //find the owner id based on the owner parameters first to find relevant listings
-        const owners = await Users.find({$or: [{email: searchstring}, {name: searchstring}]});
-        let owner_id_arr = [];
-        owners.forEach((owner) =>{
-            owner_id_arr.push(owner.id);
-        });
-        const listings = await Listings.find({$or: [{address: searchstring}, {type: searchstring}, {owner: {$in: owner_id_arr}}]})
-        res.json({listings});
+        if(!searchstring){
+            //empty searchstring means return all
+            const listings = await Listings.find();
+            let out_Arr = [];
+            listings.forEach((listing) => {
+                out_Arr.push({
+                    id: listing._id,
+                    owner: listing.owner,
+                    price: listing.price,
+                    address: listing.address,
+                    type: listing.type
+                });
+            });
+            console.log(out_Arr);
+            res.json(out_Arr);
+        }
+        else{
+            //find the owner id based on the owner parameters first to find relevant listings
+            const owners = await Users.find({$or: [{email: searchstring}, {name: searchstring}]});
+            let owner_id_arr = [];
+            owners.forEach((owner) =>{
+                owner_id_arr.push(owner.id);
+            });
+            const listings = await Listings.find({$or: [{address: searchstring}, {type: searchstring}, {owner: {$in: owner_id_arr}}]})
+            res.json(listings);
+        }
     }
     catch(err){
         res.json({message: err.message});
@@ -194,7 +301,7 @@ router.patch('/update', findUserById, async (req, res) => {
             //program crashes if manual validate does not occur before save for invalid type enum
             const commentValidate = searchResult.validateSync();
             if (!commentValidate){
-                searchResult.save();
+                await searchResult.save();
                 res.json({message: 'updated ' + id, searchResult});
             }
             else{
