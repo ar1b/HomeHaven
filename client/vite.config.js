@@ -8,7 +8,12 @@ export default defineConfig({
       '/api-users': {
         target:"http://localhost:3000",
         //secure: false,
-        changeOrigin: true
+        //changeOrigin: true
+      },
+      '/api-listings': {
+        target:"http://localhost:3000",
+        //secure: false,
+        //changeOrigin: true
       }
     }
   },
