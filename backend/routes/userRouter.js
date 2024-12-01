@@ -67,7 +67,10 @@ router.patch('/update', async (req, res) => {
             const searchResult = await Users.findById(id);
 
             searchResult.email = req.body.email || searchResult.email;
-            searchResult.password = await bcrypt.hash(req.body.password, 10) || searchResult.password;
+            const req_pw = req.body.password;
+            if(req_pw){
+                searchResult.password = await bcrypt.hash(req_pw, 10);
+            }
             searchResult.name = req.body.name || searchResult.name;
             searchResult.phone = req.body.phone || searchResult.phone;
             await searchResult.save();
