@@ -25,18 +25,27 @@ import './listingSearch.css';
     }
     
     function ListingBoxes(){
-        return(
-            <div>
-                {listingList.map( (listing) => (
-                    <div className="listingBox">
-                        <p>Owner ID: {listing.owner}</p>
-                        <p>Address: {listing.address}</p>
-                        <p>Type: {listing.type}</p>
-                        <p>Price: {listing.price}</p>
-                    </div>
-                ))}
-            </div>
-        );
+        if(listingList){
+            return(
+                <div>
+                    {listingList.map( (listing) => (
+                        <div className="listingBox">
+                            <p>Owner ID: {listing.owner}</p>
+                            <p>Address: {listing.address}</p>
+                            <p>Type: {listing.type}</p>
+                            <p>Price: {listing.price}</p>
+                        </div>
+                    ))}
+                </div>
+            );
+        }
+        else{
+            return(
+                <div>
+                    
+                </div>
+            );
+        }
     }
 /*
     function ListingBox(){

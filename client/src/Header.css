@@ -26,4 +26,7 @@
     border: 2px solid black;
 }
 
-
+#logo img{
+    object-fit: contain;
+    width: 70px;
+}
