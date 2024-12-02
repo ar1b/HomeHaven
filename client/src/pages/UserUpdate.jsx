@@ -18,8 +18,8 @@ const UserUpdate = () => {
                 body: JSON.stringify(outObj),
                 headers: {"Content-Type": "application/json"},
             })
-            .then( res => { 
-                const obj = res.json();
+            .then( async res => { 
+                const obj = await res.json();
                 console.log(obj);
             })
             .catch( err => {console.log("Error! " + err)} );
