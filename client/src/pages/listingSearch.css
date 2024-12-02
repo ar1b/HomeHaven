@@ -1,0 +1,13 @@
+
+.mainPart{
+    width: 1000px;
+    margin: 200px 200px 200px 200px;
+}
+
+button {
+    border: 2px solid black;
+}
+
+.listingBox{
+    margin-top:20px;
+}
