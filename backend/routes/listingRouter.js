@@ -108,7 +108,7 @@ router.post('/create3', findUserById, upload.single('pictures'), async (req, res
         let owner = req.user_id;
         let price = req.body.price;
         let address = req.body.address;
-        let type = (req.body.type).toLowerCase();
+        let type = (req.body.type).toLowerCase();   
         
         let pictures = {
             data: req.file.buffer,

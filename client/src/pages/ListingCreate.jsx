@@ -28,14 +28,14 @@ const ListingCreate = () => {
       <div className="pt-3 max-w-lg mx-auto">
         <h1 className="text-3xl text-center font-semibold my-7">Create Listing</h1>
         <form id="form1" className="flex flex-col gap-4">
-          <input type='text' placeholder='Address' className='border p-3 rounded-lg' id="address" />
-          <input type='password' placeholder='Price' className='border p-3 rounded-lg' id="price" />
-          <input type='text' placeholder='Type' className='border p-3 rounded-lg' id="type" />
+          <input type='text' placeholder='Address' className='border p-3 rounded-lg' id="address" name="address" />
+          <input type='text' placeholder='Price' className='border p-3 rounded-lg' id="price" name="price" />
+          <input type='text' placeholder='Type' className='border p-3 rounded-lg' id="type" name="type" />
           <br/>
-          <label for="listingPicturs">Picture Upload</label>
-          <input type='file' className='border p-3 rounded-lg' id="pictures" />
+          <label htmlFor="listingPicturs">Picture Upload</label>
+          <input type='file' className='border p-3 rounded-lg' id="pictures" name="pictures"/>
   
-          <button onClick={handleSubmit} id="submitBtn" className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">Sign Up</button>
+          <button onClick={handleSubmit} id="submitBtn" className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">Upload</button>
         </form>
         <div className="flex gap-2 m-5">
         </div>
