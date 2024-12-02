@@ -23,7 +23,6 @@ const App = () => {
           <Route path='/listingcreate' element={<ListingCreate />}/>
       </Routes>
       </BrowserRouter>
-      <ListingCreate />
     </div>
   )
 }
