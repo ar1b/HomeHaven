@@ -28,6 +28,7 @@ async function loadListings(){
 
         /*
         //block with failed image test
+        //DO NOT USE
         tempString = `<h1>Listing #${counter}</h1>
         <p>
             Listing ID: ${listing._id}
@@ -98,6 +99,7 @@ function setup(){
 
     /*
     //this doesn't work here; has to be put at the end of async function loadListings
+    //DO NOT USE THIS ONE
     let photos = document.querySelectorAll("img");
         photos.forEach(photo =>{
             photo.style.width = "600px";
