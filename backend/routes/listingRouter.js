@@ -249,18 +249,7 @@ router.get('/search', async (req, res) =>{
         if(!searchstring){
             //empty searchstring means return all
             const listings = await Listings.find();
-            let out_Arr = [];
-            listings.forEach((listing) => {
-                out_Arr.push({
-                    id: listing._id,
-                    owner: listing.owner,
-                    price: listing.price,
-                    address: listing.address,
-                    type: listing.type
-                });
-            });
-            console.log(out_Arr);
-            res.json(out_Arr);
+            res.json(listings);
         }
         else{
             //find the owner id based on the owner parameters first to find relevant listings
