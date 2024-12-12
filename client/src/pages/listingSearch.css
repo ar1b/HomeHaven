@@ -9,5 +9,10 @@ button {
 }
 
 .listingBox{
-    margin-top:20px;
+    margin-top: 20px;
+}
+
+img{
+    width: 600px;
+    object-fit: contain;
 }
