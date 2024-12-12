@@ -6,11 +6,11 @@ const cookieParser = require('cookie-parser');
 const userRouter = require('./routes/userRouter.js');
 const listingRouter = require('./routes/listingRouter.js');
 
-const cors = require('cors');
+//const cors = require('cors');
+//app.use(cors({origin: '*'}));
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({origin: '*'}));
 
 mongoose.connect(process.env.DB_CONNECTION_STRING, { useNewUrlParser: true });
 const db = mongoose.connection;
