@@ -4,7 +4,7 @@ let listingsArr;
 async function loadListings(){
     
     try{
-        await fetch("http://localhost:3000/api-listings/search")
+        await fetch("https://homehaven-ssxz.onrender.com/api-listings/search")
         .then( async res => {
             listingsArr = await res.json(); //promise results can't be printed directly?
             console.log(listingsArr);

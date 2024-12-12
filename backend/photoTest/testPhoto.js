@@ -10,7 +10,7 @@ function updateId(){
 async function submitForm(e){
     e.preventDefault();
     try{
-        await fetch("http://localhost:3000/api-listings/listing2/" + listingId)
+        await fetch("https://homehaven-ssxz.onrender.com/api-listings/listing2/" + listingId)
         .then( async res => {
             const obj = await res.blob();
             const tempURL = URL.createObjectURL(obj);
