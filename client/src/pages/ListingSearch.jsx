@@ -2,6 +2,8 @@ import React from 'react';
 import {useState} from 'react';
 import './listingSearch.css';
 
+import axios from 'axios';
+
 function ListingSearch(){
 
     const [listingList, setListingList] = useState();
@@ -16,9 +18,12 @@ function ListingSearch(){
             fetchURL = fetchURL + "?searchstring=" + searchstring;
         }
 
-        fetch(fetchURL)
+        //fetch(fetchURL, {method: "GET"})
+        axios.get(fetchURL)
         .then( async res => { 
-            const obj = await res.json();
+            //const obj = await res.json();
+            const obj = await res.data;
+            console.log(obj);
             setListingList(obj);
         })
         .catch( err => {console.log("Error! " + err)} );
@@ -80,9 +85,12 @@ function ListingSearch(){
         if(imageURL == ""){
             
             try{
-                fetch("/api-listings/listing2/" + listing._id)
+                //fetch("/api-listings/listing2/" + listing._id, {method: "GET"})
+                axios.get("/api-listings/listing2/" + listing._id, {responseType: "blob"})
                 .then( async res => {
-                    tempFile = await res.blob();
+                    //tempFile = await res.blob();
+                    tempFile = await res.data;
+                    console.log(tempFile);
                     tempURL = URL.createObjectURL(tempFile);
                     //console.log(tempURL);
                     setImageURL(tempURL);
