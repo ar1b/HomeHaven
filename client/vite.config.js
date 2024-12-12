@@ -8,12 +8,12 @@ export default defineConfig({
       '/api-users': {
         target:"https://homehaven-ssxz.onrender.com",
         //secure: false,
-        //changeOrigin: true
+        changeOrigin: true
       },
       '/api-listings': {
         target:"https://homehaven-ssxz.onrender.com",
         //secure: false,
-        //changeOrigin: true
+        changeOrigin: true
       }
     }
   },
