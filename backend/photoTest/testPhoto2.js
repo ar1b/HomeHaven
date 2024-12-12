@@ -52,7 +52,7 @@ async function loadListings(){
         */
 
         try{
-            await fetch("http://localhost:3000/api-listings/listing2/" + listing._id)
+            await fetch("https://homehaven-ssxz.onrender.com/api-listings/listing2/" + listing._id)
             .then( async res => {
                 tempFile = await res.blob();
                 tempURL = URL.createObjectURL(tempFile);
