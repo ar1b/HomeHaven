@@ -6,8 +6,18 @@ function ListingSearch(){
 
     const [listingList, setListingList] = useState();
 
+    //let previewPics = [];
+    //let [previewPics, setPreviewPics] = useState([]);   //array to hold temporary picture URLs
+    //let previewPics = []; 
+    //let previewPicsCounter = 0; //counter to decide which image to use for each listing component
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        //previewPics = [];
+        //setPreviewPics([]);
+        //previewPicsCounter = 0;
+
         //searchstring is all lowercase
         const searchstring = document.getElementById("searchBar").value;
         let fetchURL = "/api-listings/search"
@@ -16,14 +26,194 @@ function ListingSearch(){
         }
 
         fetch(fetchURL)
-            .then( async res => { 
-                const obj = await res.json();
-                //console.log(obj[0]);
-                setListingList(obj);
-            })
-            .catch( err => {console.log("Error! " + err)} );
+        .then( async res => { 
+            const obj = await res.json();
+            //console.log(obj[0]);
+            setListingList(obj);
+            //configPreviewPics();
+            //console.log(previewPics);
+        })
+        .catch( err => {console.log("Error! " + err)} );
+        
     }
-  
+/*
+    function configPreviewPics(){
+
+        console.log(listingList);
+
+        let tempState;
+        let tempSet;
+
+        let tempFile = "";
+        let tempURL = "";
+
+        if(listingList){
+            listingList.forEach( (listing) => {
+                fetch("/api-listings/listing2/" + listing._id)
+                .then( async res => {
+                    tempFile = await res.blob();
+                    tempURL = URL.createObjectURL(tempFile);
+                    console.log(tempURL);
+                    console.log(previewPics);
+                    setPreviewPics([...previewPics, tempURL]);
+                    //previewPics.push(tempURL);
+                })
+                .catch( err => {console.log("Error! " + err)} );
+            });
+        }
+        
+    }
+  */
+/*asdfasdfasdf
+    function ListingBoxes(){
+        console.log(listingList);
+
+        if(listingList){
+
+            return(
+                <div>
+                    {listingList.map( (listing) => {
+                        console.log(listing._id);
+
+                        return(    
+                        <div key={listing._id} className="listingBox">
+                            <p>Owner ID: {listing.owner}</p>
+                            <p>Address: {listing.address}</p>
+                            <p>Type: {listing.type}</p>
+                            <p>Price: {listing.price}</p>
+                            <ListingPic picID={listing._id} />
+                        </div>
+                        );
+                    })}
+                </div>
+            );
+        }
+        else{
+            return(
+                <div>
+                    
+                </div>
+            );
+        }
+    }*/
+/*
+    function ListingBoxes(){
+        if(listingList){
+
+            return(
+                <div>
+                    {listingList.map( (listing) => {
+                        console.log(listing._id);
+
+                        
+
+                        let [imageURL, setImageURL] = useState();
+
+                        let tempFile = "";
+                        let tempURL = "";
+                        
+                        try{
+                            fetch("/api-listings/listing2/" + listing._id)
+                            .then( async res => {
+                                tempFile = await res.blob();
+                                tempURL = URL.createObjectURL(tempFile);
+                                console.log(tempURL);
+                                setImageURL(tempURL);
+                            })
+                            .catch( err => {console.log("Error! " + err)} );
+                        }
+                        catch(err){
+                            console.log(err);
+                        }
+
+
+                        return(    
+                        <div key={listing._id} className="listingBox">
+                            <p>Owner ID: {listing.owner}</p>
+                            <p>Address: {listing.address}</p>
+                            <p>Type: {listing.type}</p>
+                            <p>Price: {listing.price}</p>
+                            <ListingPic image={imageURL} />
+                        </div>
+                        );
+                        
+                    })}
+                </div>
+            );
+        }
+        else{
+            return(
+                <div>
+                    
+                </div>
+            );
+        }
+    }
+        */
+
+    function ListingBoxes(){
+        if(listingList){
+
+            return(
+                <div>
+                    {listingList.map( (listing) => {
+                        console.log(listing._id);
+
+                        let tempFile = "";
+                        let tempURL = "";
+                        
+                        try{
+                            fetch("/api-listings/listing2/" + listing._id)
+                            .then( async res => {
+                                tempFile = await res.blob();
+                                tempURL = await URL.createObjectURL(tempFile);
+                                console.log(tempURL);
+                               //setImageURL(tempURL);
+                            })
+                            .catch( err => {console.log("Error! " + err)} );
+                        }
+                        catch(err){
+                            console.log(err);
+                        }
+
+                        return(
+                            <ListingBox key={listing._id} listing={listing} tempURL={tempURL} />
+                        );
+                        
+                    })}
+                </div>
+            );
+        }
+        else{
+            return(
+                <div>
+                    
+                </div>
+            );
+        }
+    }
+
+    function ListingBox(props){
+        
+        let listing = props.listing;
+        let tempURL = props.tempURL;
+        //let setImageURL = props.setter;
+        //let imageURL = props.getter;
+        
+        let [imageURL, setImageURL] = useState(tempURL);
+
+        return(    
+            <div key={listing._id} className="listingBox">
+                <p>Owner ID: {listing.owner}</p>
+                <p>Address: {listing.address}</p>
+                <p>Type: {listing.type}</p>
+                <p>Price: {listing.price}</p>
+                <ListingPic image={tempURL} />
+            </div>
+            );
+    }
+
+    /*
     function ListingBoxes(){
         if(listingList){
 
@@ -73,6 +263,7 @@ function ListingSearch(){
             );
         }
     }
+        */
 
 /*
     function ListingBoxes(){
@@ -155,7 +346,17 @@ function ListingSearch(){
 */
 
 
+function ListingPic(props){
+
+    let picURL = props.image;
+
+    return(
+        <img src={picURL} alt={"an image goes here"}></img>
+    );
     
+}
+
+    /*
     function ListingPic(props){
 
         let picID = props.picID;
@@ -184,6 +385,7 @@ function ListingSearch(){
         );
         
     }
+        */
     
 /*
     function ListingPic(props){
