@@ -68,37 +68,37 @@ function ListingSearch(){
             );
     }
 
-function ListingPic(props){
+    function ListingPic(props){
 
-    let imageURL = props.getter;
-    let setImageURL = props.setter;
-    let listing = props.listing;
+        let imageURL = props.getter;
+        let setImageURL = props.setter;
+        let listing = props.listing;
 
-    let tempFile = "";
-    let tempURL = "";
+        let tempFile = "";
+        let tempURL = "";
 
-    if(imageURL == ""){
+        if(imageURL == ""){
+            
+            try{
+                fetch("/api-listings/listing2/" + listing._id)
+                .then( async res => {
+                    tempFile = await res.blob();
+                    tempURL = URL.createObjectURL(tempFile);
+                    //console.log(tempURL);
+                    setImageURL(tempURL);
+                })
+                .catch( err => {console.log("Error! " + err)} );
+            }
+            catch(err){
+                console.log(err);
+            }
+        }
+
+        return(
+            <img src={imageURL} alt={"an image goes here"}></img>
+        );
         
-        try{
-            fetch("/api-listings/listing2/" + listing._id)
-            .then( async res => {
-                tempFile = await res.blob();
-                tempURL = URL.createObjectURL(tempFile);
-                //console.log(tempURL);
-                setImageURL(tempURL);
-            })
-            .catch( err => {console.log("Error! " + err)} );
-        }
-        catch(err){
-            console.log(err);
-        }
     }
-
-    return(
-        <img src={imageURL} alt={"an image goes here"}></img>
-    );
-    
-}
 
     return (
         <div className="mainPart">
