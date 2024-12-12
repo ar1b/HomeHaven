@@ -6,12 +6,12 @@ export default defineConfig({
   server: {
     proxy: {
       '/api-users': {
-        target:"http://localhost:3000",
+        target:"https://homehaven-ssxz.onrender.com",
         //secure: false,
         //changeOrigin: true
       },
       '/api-listings': {
-        target:"http://localhost:3000",
+        target:"https://homehaven-ssxz.onrender.com",
         //secure: false,
         //changeOrigin: true
       }
