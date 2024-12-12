@@ -1,0 +1,18 @@
+
+#mainBody{
+    width: 600px;
+    margin-top:100px;
+    margin-left:200px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#leftBody{
+    width:300px;
+    background-color: skyblue;
+}
+
+#rightBody{
+    width: 200px;
+    background-color: pink;
+}

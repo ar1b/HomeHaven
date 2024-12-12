@@ -1,0 +1,32 @@
+
+#headerBox{
+    padding-top:50px;
+    min-width: 600px;
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+
+#headerLeft{
+    display: flex;
+    
+}
+
+#headerRight{
+    display: flex;
+}
+
+#logo{
+    padding-right:100px;
+}
+
+.divMinor{
+    padding-right: 10px;
+    border: 2px solid black;
+}
+
+#logo img{
+    object-fit: contain;
+    width: 70px;
+}

@@ -13,6 +13,8 @@ const fs = require('fs-extra');
 const path = require('node:path');
 const mongoose = require('mongoose');
 
+//const { findById } = require('../models/users.js');
+
 //assuming frontend will get values from backend that lets the frontend decide redirects when neccessary
 
 //current version does not work with pictures
@@ -58,12 +60,55 @@ router.post('/create', findUserById, async (req, res) =>{
     }
 });
 
+/* DO NOT USE THIS COMMENTED SECTION; GO TO /create3
+//to test picture uploads
+router.post('/create2', findUserById, async (req, res) =>{
+    //console.log (req.body);
+    //diagnostic
+    // let price = req.body.price;
+    // let address = req.body.address;
+    // let type = (req.body.type).toLowerCase();
+    //let pictures = req.body.pictures;
+    try{
+        const listing = new Listings({
+            owner: req.user_id,
+            price: req.body.price,
+            address: req.body.address,
+            type: (req.body.type).toLowerCase(),
+            //pictures: req.body.pictures
+        });
+        const savedListing = await listing.save();
+        res.json({message: 'created listing', id: savedListing._id});
+    }
+    catch(err){
+        res.json({message: err.message});
+    }
+});
+
+router.post('/create-photo', upload.single('pictures'), async (req, res) => {
+    const id = req.get('listing_id');
+    let pictures = req.file;
+    console.log(id);
+    console.log(pictures);
+    try{
+        const listing = await Listings.findById(id);
+        listing.pictures = pictures;
+        const savedListing = await listing.save();
+        res.json({message: 'asdf'});
+    }
+    catch(err){
+        res.json({message: err.message});
+    }
+    
+});
+*/
+
 router.post('/create3', findUserById, upload.single('pictures'), async (req, res) => {
     try{
         let owner = req.user_id;
         let price = req.body.price;
         let address = req.body.address;
-        let type = (req.body.type).toLowerCase();
+        let type = (req.body.type).toLowerCase();   
         
         let pictures = {
             data: req.file.buffer,
@@ -128,6 +173,67 @@ router.get('/listing2/:id', async (req, res) =>{
     }
 });
 
+
+/*
+//attempt 3 send image
+//failed; here for reference
+router.get('/listing3/:id', async (req, res) =>{
+    try{
+        //console.log(req.params.id)
+        const searchResult = await Listings.findById(req.params.id);
+        if (searchResult){
+            res.json(searchResult);
+        }
+        else{
+            res.json({message: 'no listing found with request id'});
+        }
+    }catch(err){
+        console.log(err);
+        try{
+            res.json({message: err.message});
+        }
+        catch(e){
+            console.log(e);
+        }
+    }
+});
+*/
+
+/*
+//attempt 4 send image
+//works for static html
+router.get('/listing4/:id', async (req, res) =>{
+    console.log(req.params.id);
+    if (mongoose.isValidObjectId(req.params.id)){
+        try{
+            
+            const searchResult = await Listings.findById(req.params.id);
+            if (searchResult){
+                await fs.outputFileSync(path.join(__dirname, '/photoTest/photo1.png'), searchResult.pictures.data);
+                res.sendFile(__dirname + '/photoTest/testPhoto3.html');
+            }
+            else{
+                res.json({message: 'no listing found with request id'});
+            }
+        }catch(err){
+            console.log(err);
+            try{
+                res.json({message: err.message});
+            }
+            catch(e){
+                console.log(e);
+            }
+        }
+    }
+    else if (req.params.id === 'testPhoto3.js'){
+        res.sendFile(__dirname + '/photoTest/testPhoto3.js');
+    }
+    else if (req.params.id === 'photo1.png'){
+        res.sendFile(__dirname + '/photoTest/photo1.png');
+    }
+});
+*/
+
 //read with query strings using owner name, owner email, address or type (for search result pages)
 //implementation requires exact strings to match
 //no string means search all
@@ -143,18 +249,7 @@ router.get('/search', async (req, res) =>{
         if(!searchstring){
             //empty searchstring means return all
             const listings = await Listings.find();
-            let out_Arr = [];
-            listings.forEach((listing) => {
-                out_Arr.push({
-                    id: listing._id,
-                    owner: listing.owner,
-                    price: listing.price,
-                    address: listing.address,
-                    type: listing.type
-                });
-            });
-            console.log(out_Arr);
-            res.json(out_Arr);
+            res.json(listings);
         }
         else{
             //find the owner id based on the owner parameters first to find relevant listings

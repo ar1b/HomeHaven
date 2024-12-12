@@ -28,6 +28,9 @@ app.get('/', (req, res) =>{
 app.get('/pic', (req, res) =>{
     res.sendFile(__dirname + '/photoTest/testPhoto.html');
 });
+app.get('/pic2', (req, res) =>{
+    res.sendFile(__dirname + '/photoTest/testPhoto2.html');
+});
 //end of temporary stuff
 
 app.listen(process.env.BACKEND_PORT, () => console.log('Started Home Haven backend server'));

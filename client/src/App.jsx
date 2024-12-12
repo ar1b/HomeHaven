@@ -1,26 +1,41 @@
-import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import SignIn from './pages/SignIn';
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
 import SignUp from './pages/SignUp';
-import About from './pages/About';
-import Profile from './pages/Profile';
-import Header from './components/Header';
+import SignIn from './pages/SignIn';
+import UserUpdate from './pages/UserUpdate';
+import ListingSearch from './pages/ListingSearch';
+import ListingCreate from './pages/ListingCreate';
+//import ListingIndvidual from './pages/ListingIndividual';
 
-function App() {
+import Header from './Header';
 
+const App = () => {
   return (
-    <BrowserRouter>
+    <div>
+      <BrowserRouter>
       <Header />
       <Routes>
-        <Route path="/" element={<Home/>} />
-        <Route path="/sign-in" element={<SignIn/>} />
-        <Route path="/sign-up" element={<SignUp/>} />
-        <Route path="/about" element={<About/>} />
-        <Route path="/profile" element={<Profile/>} />
+          <Route index element={<SignIn />} />
+          <Route path='/signup' element={<SignUp />}/>
+          <Route path='/signin' element={<SignIn />}/>
+          <Route path='/userupdate' element={<UserUpdate />}/>
+          <Route path='/listingsearch' element={<ListingSearch />}/>
+          <Route path='/listingcreate' element={<ListingCreate />}/>
       </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
+    </div>
   )
 }
 
 export default App
+
+/*
+<Route path='/signup' element={<SignUp />}/>
+          <Route path='/signin' element={<SignIn />}/>
+          <Route path='/userupdate' element={<UserUpdate />}/>
+          <Route path='/listingsearch' element={<ListingSearch />}/>
+          <Route path='/listingcreate' element={<ListingCreate />}/>
+          */
+
+//<Route path='/listingIndividual/*' element={<ListingIndvidual  />}/>
