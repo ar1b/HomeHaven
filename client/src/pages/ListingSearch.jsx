@@ -18,11 +18,11 @@ function ListingSearch(){
             fetchURL = fetchURL + "?searchstring=" + searchstring;
         }
 
-        //fetch(fetchURL, {method: "GET"})
-        axios.get(fetchURL)
+        fetch(fetchURL, {method: "GET"})
+        //axios.get(fetchURL)
         .then( async res => { 
-            //const obj = await res.json();
-            const obj = await res.data;
+            const obj = await res.json();
+            //const obj = await res.data;
             console.log(obj);
             setListingList(obj);
         })
@@ -85,11 +85,11 @@ function ListingSearch(){
         if(imageURL == ""){
             
             try{
-                //fetch("/api-listings/listing2/" + listing._id, {method: "GET"})
-                axios.get("/api-listings/listing2/" + listing._id, {responseType: "blob"})
+                fetch("/api-listings/listing2/" + listing._id, {method: "GET"})
+                //axios.get("/api-listings/listing2/" + listing._id, {responseType: "blob"})
                 .then( async res => {
-                    //tempFile = await res.blob();
-                    tempFile = await res.data;
+                    tempFile = await res.blob();
+                    //tempFile = await res.data;
                     console.log(tempFile);
                     tempURL = URL.createObjectURL(tempFile);
                     //console.log(tempURL);
