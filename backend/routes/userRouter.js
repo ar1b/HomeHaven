@@ -18,7 +18,7 @@ router.post('/create', async (req, res) =>{
             });
             const savedUser = await user.save();
             const token = jwt.sign({id: user._id, email: user.email}, process.env.JWT_SECRET, {expiresIn: '30d'});
-            res.cookie('token', token, {httpOnly: true, maxAge: 30*24*60*60*1000, sameSite: false});
+            res.cookie('token', token, {httpOnly: true, maxAge: 30*24*60*60*1000});
             res.json({message: 'created user', token});
         }
         else{
@@ -76,7 +76,7 @@ router.patch('/update', async (req, res) => {
             await searchResult.save();
 
             const newToken = jwt.sign({id: searchResult._id, email: searchResult.email}, process.env.JWT_SECRET, {expiresIn: '30d'});
-            res.cookie('token', newToken, {httpOnly: true, maxAge: 30*24*60*60*1000, sameSite: false});
+            res.cookie('token', newToken, {httpOnly: true, maxAge: 30*24*60*60*1000});
             res.json({message: 'updated user ' + searchResult.email, newToken});
         }
         catch(err){
