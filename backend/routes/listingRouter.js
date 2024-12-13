@@ -11,7 +11,7 @@ const storage = multer.memoryStorage();
 const upload = multer({storage: storage});
 const fs = require('fs-extra');
 const path = require('node:path');
-const mongoose = require('mongoose');
+//const mongoose = require('mongoose');
 
 //const { findById } = require('../models/users.js');
 
