@@ -1,5 +1,6 @@
 import React from "react";
 import BrutalistBuilding from "../assets/brutalismBuilding.jpg";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -19,7 +20,7 @@ const Home = () => {
       </div>
 
       <div className="flex items-center justify-between px-6 py-10 bg-white rounded-full shadow-md max-w-full mx-4">
-        <p className="text-gray-700">Check out our Listings <span className="text-purple-900 font-semibold">Here</span></p>
+        <p className="text-gray-700">Check out our Listings <span className="text-purple-900 font-semibold"><Link to="/listingsearch">Here</Link></span></p>
       </div>
     </div>
   );
