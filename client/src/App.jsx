@@ -8,7 +8,7 @@ import ListingSearch from './pages/ListingSearch';
 import ListingCreate from './pages/ListingCreate';
 //import ListingIndvidual from './pages/ListingIndividual';
 
-import Header from './Header';
+import Header from './components/Header';
 import Home from './pages/Home';
 import About from './pages/About';
 
