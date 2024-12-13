@@ -9,6 +9,8 @@ import ListingCreate from './pages/ListingCreate';
 //import ListingIndvidual from './pages/ListingIndividual';
 
 import Header from './Header';
+import Home from './pages/Home';
+import About from './pages/About';
 
 const App = () => {
   return (
@@ -16,12 +18,13 @@ const App = () => {
       <BrowserRouter>
       <Header />
       <Routes>
-          <Route index element={<SignIn />} />
-          <Route path='/signup' element={<SignUp />}/>
-          <Route path='/signin' element={<SignIn />}/>
+          <Route index element={<Home />} />
+          <Route path='/About' element={<About/>} />
           <Route path='/userupdate' element={<UserUpdate />}/>
           <Route path='/listingsearch' element={<ListingSearch />}/>
           <Route path='/listingcreate' element={<ListingCreate />}/>
+          <Route path='/signup' element={<SignUp />}/>
+          <Route path='/signin' element={<SignIn />}/>
       </Routes>
       </BrowserRouter>
     </div>
