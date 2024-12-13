@@ -17,7 +17,6 @@ const Footer = () => {
           <div className="flex flex-col items-center sm:items-start">
             <h3 className="font-bold mb-4">Main Pages</h3>
             <Link to="/" className="text-gray-400 hover:text-yellow-500">Home</Link>
-            <Link to="/About" className="text-gray-400 hover:text-yellow-500">About</Link>
             <Link to="/listingsearch" className="text-gray-400 hover:text-yellow-500">Listings</Link>
             <Link to="/userupdate" className="text-gray-400 hover:text-yellow-500">Profile</Link>
           </div>

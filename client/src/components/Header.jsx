@@ -14,7 +14,6 @@ export default function Header(){
                 
             <div className="flex space-x-6 absolute left-1/2 transform -translate-x-1/2">
                 <Link className='text-gray-700 hover:text-gray-900 transition-colors px-2' to='/'>Home</Link>
-                <Link className='text-gray-700 hover:text-gray-900 transition-colors px-2' to='/About'>About</Link>
                 <Link className='text-gray-700 hover:text-gray-900 transition-colors px-2' to='/listingsearch'>Listings</Link>
                 <Link className='text-gray-700 hover:text-gray-900 transition-colors px-2' to='/listingcreate'>Create Listing</Link>
                 <Link className='text-gray-700 hover:text-gray-900 transition-colors px-2' to='userupdate'>Profile</Link>
