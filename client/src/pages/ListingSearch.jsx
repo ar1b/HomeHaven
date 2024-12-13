@@ -13,7 +13,7 @@ function ListingSearch(){
 
         //searchstring is all lowercase
         const searchstring = document.getElementById("searchBar").value;
-        let fetchURL = "/api-listings/search"
+        let fetchURL = "https://homehaven-ssxz.onrender.com/api-listings/search"
         if(searchstring){
             fetchURL = fetchURL + "?searchstring=" + searchstring;
         }
@@ -85,7 +85,7 @@ function ListingSearch(){
         if(imageURL == ""){
             
             try{
-                fetch("/api-listings/listing2/" + listing._id, {method: "GET"})
+                fetch("https://homehaven-ssxz.onrender.com/api-listings/listing2/" + listing._id, {method: "GET"})
                 //axios.get("/api-listings/listing2/" + listing._id, {responseType: "blob"})
                 .then( async res => {
                     tempFile = await res.blob();

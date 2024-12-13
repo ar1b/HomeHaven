@@ -12,7 +12,7 @@ const UserUpdate = () => {
         const outObj = {
             email, password, name, phone
         };
-        await fetch("/api-users/update",
+        await fetch("https://homehaven-ssxz.onrender.com/api-users/update",
             {
                 method: "PATCH",
                 body: JSON.stringify(outObj),

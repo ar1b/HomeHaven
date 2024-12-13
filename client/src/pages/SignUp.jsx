@@ -65,7 +65,7 @@ const SignUp = () => {
     const outObj = {
         email, password, name, phone
     };
-    await fetch("/api-users/create",
+    await fetch("https://homehaven-ssxz.onrender.com/api-users/create",
       {
           method: "POST",
           body: JSON.stringify(outObj),
