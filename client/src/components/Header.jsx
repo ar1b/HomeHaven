@@ -7,7 +7,7 @@ import Logo from '../assets/hhlogo.png';
 
 export default function Header(){
     return (
-        <nav className='flex items-center justify-between px-6 py-1 bg-white rounded-full shadow-md max-w-lg mx-auto my-4 max-w-full'>
+        <nav className='flex items-center justify-between px-6 py-1 bg-white rounded-full shadow-md  max-w-full mx-4 mt-2'>
             <div className='flex items-center space-x-4'>
                 <Link to='/'><img className='h-20 w-auto' src={Logo}/></Link>
             </div>

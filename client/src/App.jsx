@@ -9,23 +9,27 @@ import ListingCreate from './pages/ListingCreate';
 //import ListingIndvidual from './pages/ListingIndividual';
 
 import Header from './components/Header';
+import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
 
 const App = () => {
   return (
-    <div>
+    <div className='flex flex-col min-h-screen'>
       <BrowserRouter>
       <Header />
-      <Routes>
-          <Route index element={<Home />} />
-          <Route path='/About' element={<About/>} />
-          <Route path='/userupdate' element={<UserUpdate />}/>
-          <Route path='/listingsearch' element={<ListingSearch />}/>
-          <Route path='/listingcreate' element={<ListingCreate />}/>
-          <Route path='/signup' element={<SignUp />}/>
-          <Route path='/signin' element={<SignIn />}/>
-      </Routes>
+      <main className='flex-grow'>
+        <Routes>
+            <Route index element={<Home />} />
+            <Route path='/About' element={<About/>} />
+            <Route path='/userupdate' element={<UserUpdate />}/>
+            <Route path='/listingsearch' element={<ListingSearch />}/>
+            <Route path='/listingcreate' element={<ListingCreate />}/>
+            <Route path='/signup' element={<SignUp />}/>
+            <Route path='/signin' element={<SignIn />}/>
+        </Routes>
+      </main>
+      <Footer />
       </BrowserRouter>
     </div>
   )
