@@ -30,7 +30,7 @@ const SignIn = () => {
           <input type='text' placeholder='E-mail' className='border p-3 rounded-lg' id="userEmail" />
           <input type='password' placeholder='Password' className='border p-3 rounded-lg' id="userPassword" />
   
-          <button onClick={handleSubmit} className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">Sign Up</button>
+          <button onClick={handleSubmit} className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">Sign In</button>
         </form>
         <div className="flex gap-2 m-5">
           <p>Don't have an account?</p>
