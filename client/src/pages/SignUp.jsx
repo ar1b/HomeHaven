@@ -65,7 +65,7 @@ const SignUp = () => {
     const outObj = {
         email, password, name, phone
     };
-    await fetch("/api-users/create",
+    await fetch("https://comp229-backenddeploy.onrender.com/api-users/create",
       {
           method: "POST",
           body: JSON.stringify(outObj),
