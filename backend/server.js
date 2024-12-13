@@ -7,7 +7,7 @@ const userRouter = require('./routes/userRouter.js');
 const listingRouter = require('./routes/listingRouter.js');
 
 const cors = require('cors');
-app.use(cors({origin: '*', credentials: true}));
+app.use(cors({origin: '*', credentials: true, allowedHeaders: ['Content-Type', '*']}));
 
 app.use(express.json());
 app.use(cookieParser());
