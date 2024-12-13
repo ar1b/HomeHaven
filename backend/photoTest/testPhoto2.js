@@ -4,7 +4,7 @@ let listingsArr;
 async function loadListings(){
     
     try{
-        await fetch("http://localhost:3000/api-listings/search")
+        await fetch("https://comp229-backenddeploy.onrender.com/api-listings/search")
         .then( async res => {
             listingsArr = await res.json(); //promise results can't be printed directly?
             console.log(listingsArr);
@@ -52,7 +52,7 @@ async function loadListings(){
         */
 
         try{
-            await fetch("http://localhost:3000/api-listings/listing2/" + listing._id)
+            await fetch("https://comp229-backenddeploy.onrender.com/api-listings/listing2/" + listing._id)
             .then( async res => {
                 tempFile = await res.blob();
                 tempURL = URL.createObjectURL(tempFile);

@@ -54,7 +54,7 @@ async function submitForm2(e){
     const pictures = document.getElementById("pictures").files[0];
     const sendObj = {price, address, type, pictures};
     */
-    await fetch("http://localhost:3000/api-listings/create3",
+    await fetch("https://comp229-backenddeploy.onrender.com/api-listings/create3",
         {
             method: "POST",
             body: formData
